@@ -23,10 +23,11 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-//#ifdef	__cplusplus
-//extern "C" {
-//#endif
+#ifdef	__cplusplus
+extern "C" {
+#endif
 
+/** Available PWM units*/
 typedef enum {
     PWM_1 = 0,
     PWM_2,
@@ -36,27 +37,49 @@ typedef enum {
     NUM_OF_PWM
 } pwms_t;
 
-
 typedef struct pwmHandle *drv_pwmHandle_t;
 
 typedef struct {
-    timers_t clockSource; 
-    pwms_t pinSel;
-    uint16_t dutyCyle;
-    uint16_t frequency;
+    timers_t clockSource;   /**< The timer to use for PWM, note timer 1 is reserved by FreeRTOS*/
+    pwms_t pinSel;          /**< The OC module to output the PWM on*/
+    uint16_t dutyCyle;      /**< The initial PWM duty cycle*/
+    uint16_t frequency;     /**< The PWM frequency*/
 } drv_pwmConfig_t;
 
+/**
+ * @brief Initialize a PWM driver.
+ * @param config Configuration structure to configure the PWM driver.
+ * @return Handle object to the PWM driver.
+ */
 drv_pwmHandle_t drv_pwmInit(drv_pwmConfig_t *config);
 
+/**
+ * @brief Set the PWM duty cycle with 16-bits accuracy
+ * @details Configures the OCxRS register of the OC unit.
+ *
+ * @param handle Handle to the PWM driver.
+ * @param dutyCycle Duty cycle to set.
+ */
 void drv_pwmSet(drv_pwmHandle_t handle, uint16_t dutyCycle);
 
+/**
+ * @brief Get the last set duty cycle.
+ * @details Does not return the value of the OC register.
+ * @param handle Handle to the PWM driver.
+ * @return Duty cycle.
+ */
 uint16_t drv_pwmGet(drv_pwmHandle_t handle);
 
+/**
+ * @brief Uninitialized the PWM driver and free the memory of the handle object.
+ * @details Disables timer and OC unit.
+ * @param handle Handle to the PWM driver to disable.
+ */
 void drv_pwmDestroy(drv_pwmHandle_t handle);
 
-//#ifdef	__cplusplus
-//}
-//#endif
+#ifdef	__cplusplus
+}
+#endif
 
 #endif	/* DRV_PWM_H */
 

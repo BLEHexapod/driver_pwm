@@ -34,7 +34,7 @@ static volatile uint32_t *pwmRegs[NUM_OF_PWM] = {
 
 struct pwmHandle {
     uint16_t dutyCycle;
-    timers_t clockSource; 
+    timers_t clockSource;
     pwms_t pinSel;
 };
 
@@ -48,7 +48,7 @@ drv_pwmHandle_t drv_pwmInit(drv_pwmConfig_t *config)
     *dutyCycleRegs[config->pinSel] = config->dutyCyle;
     *pwmRegs[config->pinSel] = (1<< OC_ON) | (1<<OC_OCM1) | (1<<OC_OCM2);
     *timerRegs[config->clockSource] = (1<<TMRB_PS2) | (1<<TMRB_ON);
-    return NULL;
+    return handle;
 }
 
 void drv_pwmSet(drv_pwmHandle_t handle, uint16_t dutyCycle)
