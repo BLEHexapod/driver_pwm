@@ -30,40 +30,16 @@ typedef volatile unsigned int *PORTREF;
 typedef void(*callback)(void*);
 typedef void* bundle;
 
-typedef enum {
-    TIMER_1 = 0,
-    TIMER_2,
-    TIMER_3,
-    TIMER_4,
-    TIMER_5,
-    NUM_OF_TMR
-} timers_t;
-
-static volatile uint32_t *timerRegs[NUM_OF_TMR] = {
-    &T1CON,
-    &T2CON,
-    &T3CON,
-    &T4CON,
-    &T5CON
-};
-
-static volatile uint32_t *periodRegs[NUM_OF_TMR] = {
-    &PR1,
-    &PR2,
-    &PR3,
-    &PR4,
-    &PR5
-};
-
-
 // system clock(Cerebot stock crystal) CPU
 #ifndef CPUCLK
-#define CPUCLK      8000000
+#define CPUCLK          8000000
 #endif // CPUCLK
     
 #ifndef SYS_CLK_FREQ
-#define SYS_CLK_FREQ      64000000
+#define SYS_CLK_FREQ    64000000
 #endif //SYS_CLK_FREQ
+
+#define PB_CLK          40000000
 
 // leds
 #define LEDS 4    
